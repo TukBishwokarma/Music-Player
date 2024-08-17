@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Player</title>
+    <script src="https://kit.fontawesome.com/7432e1cc6c.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="main_div">
+        <div class="music_container">
+            <h2 id="title">TUKS</h2>
+            <h3 id="artist">Gtr TBS</h3>
+            <div class="img_container">
+                <img src="images/tuk-1.jpg" alt="">
+            </div>
+            <audio src="music/tuk-1.mp3"></audio>
+            <div class="music_controls">
+                <i class="fa-solid fa-backward" id="prev"></i>
+                <i class="fa-solid fa-play main_button" id="play"></i>
+                <i class="fa-solid fa-forward" id="next"></i>
+            </div>
+        </div>
+    </div>
+    <script>
+        const music = document.querySelector("audio");
+        const img = document.querySelector("img");
+        const play = document.getElementById("play");
+        const title = document.getElementById("title");
+        const artist = document.getElementById("artist");
+        const prev = document.getElementById("prev");
+        const next = document.getElementById("next");
+
+        const songs = [
+            {
+                name: "tuk-1",
+                title: "bom bom",
+                artist: "yok",
+            },
+            {
+                name: "tuk-2",
+                title: "bama bama",
+                artist: "yok",
+            },
+            {
+                name: "tuk-3",
+                title: "bame bame",
+                artist: "yok",
+            }
+        ];
+
+        let isPlaying = false;
+        let songIndex = 0;
+
+        const playMusic = () => {
+            music.play();
+            isPlaying = true;
+            play.classList.replace("fa-play", "fa-pause");
+            img.classList.add("anime");
+        };
+
+        const pauseMusic = () => {
+            music.pause();
+            isPlaying = false;
+            play.classList.replace("fa-pause", "fa-play");
+            img.classList.remove("anime");
+        };
+
+        play.addEventListener('click', () => {
+            if (isPlaying) {
+                pauseMusic();
+            } else {
+                playMusic();
+            }
+        });
+
+        const loadSong = (song) => {
+            title.textContent = song.title;
+            artist.textContent = song.artist;
+            music.src = "music/" + song.name + ".mp3";
+            img.src = "images/" + song.name + ".jpg";
+        };
+
+        loadSong(songs[songIndex]);
+
+        const nextSong = () => {
+            songIndex = (songIndex + 1) % songs.length;
+            loadSong(songs[songIndex]);
+            playMusic();
+        };
+
+        const prevSong = () => {
+            songIndex = (songIndex - 1 + songs.length) % songs.length;
+            loadSong(songs[songIndex]);
+            playMusic();
+        };
+
+        next.addEventListener('click', nextSong);
+        prev.addEventListener("click", prevSong);
+    </script>
+</body>
+</html>
